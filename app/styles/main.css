@@ -1,0 +1,7 @@
+.tile .name {
+	font-size: 11px !important;
+}
+
+.highlighted {
+	background-color: yellow !important;
+}

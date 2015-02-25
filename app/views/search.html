@@ -1,0 +1,126 @@
+<fieldset>
+	<legend>Recherche - {{title}}</legend>
+</fieldset>
+
+<div class="row">
+	<div class="col-sm-12">
+
+		<div class="form-inline">
+
+		<div class="form-group metro">
+      <a href="#/" class="report-choice">
+          <div class="tile bg-gray">
+              <div class="tile-content icon">
+                  <i class="fa fa-backward"></i>
+              </div>
+              <div class="tile-status">
+                  <span class="name">Retour</span>
+              </div>
+          </div>
+      </a>	
+		</div>
+
+
+			<!-- DATE SEARCH -->
+		  <div class="form-group">
+				<fieldset>
+					<legend>Recherche par date</legend>
+					<button ng-click="back()" class="btn btn-warning">Précédent</button>
+					<input class="form-control datepicker"/>
+					<button ng-click="foward()" class="btn btn-primary">Suivant</button>
+				</fieldset>
+			</div>
+
+			<div class="form-group">
+				&nbsp;
+			</div>
+
+
+			<!-- WORD SEARCH -->
+		  <div class="form-group">
+		  	<form ng-submit="search()">
+			  	<fieldset>
+			  		<legend>Recherche par mot-clé</legend>
+				    <input type="text" ng-model="searchContext" class="form-control"  placeholder="Entrez un mot"/>
+					  <button type="submit" class="btn btn-success">Rechercher</button>
+			  	</fieldset>
+			  </form>
+		  </div>
+
+
+		</div>
+
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-sm-12">
+
+		<br/>
+		<h1 style="text-align: center;" ng-show="notFound">Aucun résultat</h1>
+
+	  <div class="metro">
+	    <div data-role="listview" class="listview-outlook">
+
+	    	<div ng-repeat="result in results">
+		      <a href="javascript:;" ng-click="fetchComments(result)" class="list">
+		        <div class="list-content">
+		          <span class="list-title">#{{result.Id}}</strong>&nbsp;Équipe {{ result.Team }} quart de {{ result.Period | periodPicker }}</span>
+		          <span class="list-subtitle">{{ result.Author.Title }}</span>
+		          <span class="list-remark">{{ result.Modified | date }}</span>
+		        </div>
+		      </a>
+		      <br/>
+
+					<div class="collapse comment-collapse well collapse{{result.Id}} collapse{{result.Report.Id}}">
+						<div class="report-section" ng-repeat="section in sections">
+							<h4>{{section.Title}}</h4>
+							<div>
+								<ul class="">
+									<li ng-repeat="comment in comments | filter:{ ReportId: result.Id} | filter:{ SectionId: section.Id } ">
+										<p ng-bind-html="comment.Title | highlight:searchContext" ></p>
+									</li>
+								</ul>
+							</div>			
+						</div>
+					</div>
+
+
+	    	</div>
+
+	    </div>
+	  </div>		
+
+<!-- 		<div ng-repeat="result in results">
+			<div class="search-result">
+				<h4>
+					<a href="javascript:;" ng-click="fetchComments(result)">
+						<strong style="color: red">#{{result.Id}}</strong>&nbsp;Équipe {{ result.Team }} quart de {{ result.Period | periodPicker }}
+					</a>
+				</h4>
+				<span>{{ result.Author.Title }} le {{ result.Modified | date }}</span><br/>
+				<div class="collapse comment-collapse well collapse{{result.Id}} collapse{{result.Report.Id}}">
+
+
+					<div class="report-section" ng-repeat="section in sections">
+						<h4>{{section.Title}}</h4>
+						<div>
+							<ul class="">
+								<li ng-repeat="comment in comments | filter:{ ReportId: result.Id} | filter:{ SectionId: section.Id } ">
+									<p ng-bind-html="comment.Title | highlight:searchContext" ></p>
+								</li>
+							</ul>
+						</div>			
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+ -->
+
+
+	</div>
+</div>

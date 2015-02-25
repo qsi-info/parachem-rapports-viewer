@@ -38,6 +38,13 @@ angular
         controller: 'MainCtrl'
       })
 
+
+      .when('/search/:type', {
+        templateUrl: 'views/search.html',
+        controller: 'SearchCtrl',
+      })
+
+
       // Setup
       .when('/gateway', {
         template: '',
@@ -84,7 +91,45 @@ angular
     $rootScope.isInitialize = false;
 
 
+  }])
+
+
+  .factory('SectionList', ['SharePoint', function (SharePoint) {
+    return new SharePoint.API.List('Sections Rapports Parachem');
+  }])
+
+
+  .factory('CommentList', ['SharePoint', function (SharePoint) {
+    return new SharePoint.API.List('Commentaires de rapport');
+  }])
+
+
+  .factory('ReportList', ['SharePoint', function (SharePoint) {
+    return new SharePoint.API.List('Rapports de quart');
+  }])
+
+
+
+
+  .filter('periodPicker', [function () {
+    return function (input) {
+      return input === 'jour' ? 'Jour' : 'Nuit';
+    };
+  }])
+
+
+
+
+
+  .filter('highlight', ['$sce', function($sce) {
+    return function(text, phrase) {
+      if (phrase) {
+        text = text.replace(new RegExp('('+phrase+')', 'gi'), '<span class="highlighted">$1</span>');
+      }
+      return $sce.trustAsHtml(text);
+    };
   }]);
+
 
 
 
