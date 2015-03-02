@@ -34,13 +34,13 @@ angular
 
       // Home
       .when('/home', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'views/viewer/main.html',
         controller: 'MainCtrl'
       })
 
 
       .when('/search/:type', {
-        templateUrl: 'views/search.html',
+        templateUrl: 'views/viewer/search.html',
         controller: 'SearchCtrl',
       })
 
