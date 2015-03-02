@@ -75,7 +75,7 @@ angular.module('AngularSharePointApp').controller('SearchCtrl', ['$rootScope', '
 	$scope.search = function () {
 		var odataExpand = '$expand=Author,Report';
 		var odataSelect = '$select=Author/Id,Author/Title,Report/Period,Report/Id,Report/Team,Report/Modified,Report/ReportType';
-		var odataFilter = '$filter=substringof(\'' + $scope.searchContext + '\', Title) ';
+		var odataFilter = '$filter=(substringof(\'' + $scope.searchContext + '\', Title) and Report/ReportType eq \'' + $scope.reportType.toLowerCase() + '\')';
 
 		cfpLoadingBar.start();
 		$scope.notFound = false;
