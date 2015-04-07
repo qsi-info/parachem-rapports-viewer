@@ -10,7 +10,9 @@
  /*global $:false */
  /*global moment:false */
 
-angular.module('AngularSharePointApp').controller('SearchCtrl', ['$rootScope', '$location', '$scope', 'ReportList', 'cfpLoadingBar', 'CommentList', 'SectionList', '$routeParams', function ($rootScope, $location, $scope, ReportList, cfpLoadingBar, CommentList, SectionList, $routeParams) {
+angular.module('AngularSharePointApp').controller('SearchCtrl', 
+	['$rootScope', '$location', '$scope', 'ReportList', 'cfpLoadingBar', 'CommentList', 'SectionList', '$routeParams', 'Utils',
+	function ($rootScope, $location, $scope, ReportList, cfpLoadingBar, CommentList, SectionList, $routeParams, Utils) {
 
 	if (typeof $rootScope.isInitialize === 'undefined' || !$rootScope.isInitialize) {
 		return $location.path('/gateway');
@@ -143,6 +145,18 @@ angular.module('AngularSharePointApp').controller('SearchCtrl', ['$rootScope', '
 		}
 	};
 
+
+
+	$scope.openRapportEvenements = function (reportId) {
+		var url = 'http://paradevsrv02/reportserver?/rapportsquart/rapportevenements&rs:Command=Render&rc:Toolbar=true&report='.concat(reportId);
+		Utils.popupWindow(url, 1000, 800);
+	};
+
+
+	$scope.openRapportLignes = function (reportId) {
+		var url = 'http://paradevsrv02/reportserver?/rapportsquart/rapportlignes&rs:Command=Render&rc:Toolbar=true&report='.concat(reportId);
+		Utils.popupWindow(url, 1000, 800);
+	};
 
 
 

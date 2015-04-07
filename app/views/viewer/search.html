@@ -84,6 +84,12 @@
 								</ul>
 							</div>			
 						</div>
+
+						<div ng-show="reportType == 'SA'">
+							<button ng-click="openRapportLignes(result.Id)" class="btn btn-default">Rapport de lignes</button>
+							<button ng-click="openRapportEvenements(result.Id)" class="btn btn-default">Rapport d'événements</button>
+						</div>
+
 					</div>
 
 
