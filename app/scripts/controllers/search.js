@@ -48,7 +48,7 @@ angular.module('AngularSharePointApp').controller('SearchCtrl',
 		var rDate = moment(e.date).format();
 		var tDate = moment(e.date).add(1, 'days').format();
 
-		var filter = '$filter=(ReportType eq \''+ $scope.reportType + '\' and Modified ge datetime\'' + rDate + '\' and Modified le datetime\'' + tDate + '\' and IsActive eq 0)';
+		var filter = '$filter=(ReportType eq \''+ $scope.reportType + '\' and Created ge datetime\'' + rDate + '\' and Created le datetime\'' + tDate + '\' and IsActive eq 0)';
 		var select = '$select=Id,Created,Team,Period,Modified,Author/Id,Author/Title&$expand=Author';
 
 		ReportList.find(filter + '&' + select).then(function (results) {
@@ -158,6 +158,24 @@ angular.module('AngularSharePointApp').controller('SearchCtrl',
 		Utils.popupWindow(url, 1000, 800);
 	};
 
+
+	$scope.openRendementUsine = function (idx) {
+		var report = $scope.results[idx];
+		var a = moment();
+		var b = moment(new Date(report.Created));
+		var c = a.diff(b, 'days');
+		var query = '?start_time=*-' + c + 'd&end_time=*-' + c + 'd';
+		Utils.popupWindow('http://intranet/SitePages/2.0/PI/Trend2.aspx'.concat(query), 1000, 600);
+	};
+
+	$scope.openRendementUsine2 = function (idx) {
+		var report = $scope.results[idx];
+		var a = moment();
+		var b = moment(new Date(report.Created));
+		var c = a.diff(b, 'days');
+		var query = '?start_time=*-' + c + 'd&end_time=*-' + c + 'd';
+		Utils.popupWindow('http://intranet/SitePages/2.0/PI/Trend3.aspx'.concat(query), 1000, 600);
+	};
 
 
 }]);

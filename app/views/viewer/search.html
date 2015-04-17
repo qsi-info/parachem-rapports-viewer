@@ -68,7 +68,7 @@
 		        <div class="list-content">
 		          <span class="list-title">#{{result.Id}}</strong>&nbsp;Équipe {{ result.Team }} quart de {{ result.Period | periodPicker }}</span>
 		          <span class="list-subtitle">{{ result.Author.Title }}</span>
-		          <span class="list-remark">{{ result.Modified | date }}</span>
+		          <span class="list-remark">{{ result.Created | date }}</span>
 		        </div>
 		      </a>
 		      <br/>
@@ -85,7 +85,16 @@
 							</div>			
 						</div>
 
+						<div ng-show="reportType == 'UO'">
+							<hr/>
+							<h3>Rendement d'usine</h3>
+							<button ng-click="openRendementUsine($index)" class="btn btn-default">Chaudières</button>							
+							<button ng-click="openRendementUsine2($index)" class="btn btn-default">Unités d'opération</button>							
+						</div>
+
 						<div ng-show="reportType == 'SA'">
+							<hr/>
+							<h3>Tableaux</h3>
 							<button ng-click="openRapportLignes(result.Id)" class="btn btn-default">Rapport de lignes</button>
 							<button ng-click="openRapportEvenements(result.Id)" class="btn btn-default">Rapport d'événements</button>
 						</div>
