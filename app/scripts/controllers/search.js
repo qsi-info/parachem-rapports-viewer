@@ -49,7 +49,7 @@ angular.module('AngularSharePointApp').controller('SearchCtrl',
 		var tDate = moment(e.date).add(1, 'days').format();
 
 		var filter = '$filter=(ReportType eq \''+ $scope.reportType + '\' and Created ge datetime\'' + rDate + '\' and Created le datetime\'' + tDate + '\' and IsActive eq 0)';
-		var select = '$select=Id,Created,Team,Period,Modified,Author/Id,Author/Title&$expand=Author';
+		var select = '$select=Id,Created,Team,Period,Author/Id,Author/Title&$expand=Author';
 
 		ReportList.find(filter + '&' + select).then(function (results) {
 			$scope.results = results;
