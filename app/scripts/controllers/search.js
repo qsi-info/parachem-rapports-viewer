@@ -78,13 +78,14 @@ angular.module('AngularSharePointApp').controller('SearchCtrl',
 		var odataExpand = '$expand=Author,Report';
 		var odataSelect = '$select=Author/Id,Author/Title,Report/Period,Report/Id,Report/Team,Report/Created,Report/ReportType';
 		var odataFilter = '$filter=(substringof(\'' + $scope.searchContext + '\', Title) and Report/ReportType eq \'' + $scope.reportType.toLowerCase() + '\')';
+		var odataOrder  = '$orderby=Created desc';
 
 		cfpLoadingBar.start();
 		$scope.notFound = false;
 		$scope.comments = [];
 		$scope.results = [];
 
-		CommentList.find(odataFilter + '&' + odataSelect + '&' + odataExpand).then(function (results) {
+		CommentList.find(odataFilter + '&' + odataSelect + '&' + odataExpand + '&' + odataOrder).then(function (results) {
 
 			$scope.results = [];
 
@@ -178,6 +179,9 @@ angular.module('AngularSharePointApp').controller('SearchCtrl',
 		var now = moment();
 		var nbDays = now.diff(moment(new Date(report.Created)), 'days');
 		var shiftStart = report.Period === 'jour' ? 6 : 18;
+		if (report.Period === 'nuit') {
+			nbDays++;
+		}
 		return (now.hour() - shiftStart) + (nbDays * 24);
 	};
 
