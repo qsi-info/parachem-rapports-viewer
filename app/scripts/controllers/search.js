@@ -160,21 +160,25 @@ angular.module('AngularSharePointApp').controller('SearchCtrl',
 
 
 	$scope.openRendementUsine = function (idx) {
-		var report = $scope.results[idx];
-		var a = moment();
-		var b = moment(new Date(report.Created));
-		var c = a.diff(b, 'days');
-		var query = '?start_time=*-' + c + 'd&end_time=*-' + c + 'd';
-		Utils.popupWindow('http://intranet/SitePages/2.0/PI/Trend2.aspx'.concat(query), 1000, 600);
+		var startTime = calculateStartTime($scope.results[idx]);
+		var endTime = startTime - 12;
+		var query = '?start_time=*-' + startTime + 'h&end_time=*-' + endTime + 'h';
+		Utils.popupWindow('http://intranet/SitePages/2.0/PI/Trend2.aspx'.concat(query), 1000, 800);
 	};
 
 	$scope.openRendementUsine2 = function (idx) {
-		var report = $scope.results[idx];
-		var a = moment();
-		var b = moment(new Date(report.Created));
-		var c = a.diff(b, 'days');
-		var query = '?start_time=*-' + c + 'd&end_time=*-' + c + 'd';
-		Utils.popupWindow('http://intranet/SitePages/2.0/PI/Trend3.aspx'.concat(query), 1000, 600);
+		var startTime = calculateStartTime($scope.results[idx]);
+		var endTime = startTime - 12;
+		var query = '?start_time=*-' + startTime + 'h&end_time=*-' + endTime + 'h';
+		Utils.popupWindow('http://intranet/SitePages/2.0/PI/Trend3.aspx'.concat(query), 1000, 800);
+	};
+
+
+	var calculateStartTime = function (report) {
+		var now = moment();
+		var nbDays = now.diff(moment(new Date(report.Created)), 'days');
+		var shiftStart = report.Period === 'jour' ? 6 : 18;
+		return (now.hour() - shiftStart) + (nbDays * 24);
 	};
 
 
