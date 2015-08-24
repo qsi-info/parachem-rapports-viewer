@@ -162,14 +162,14 @@ angular.module('AngularSharePointApp').controller('SearchCtrl',
 
 	$scope.openRendementUsine = function (idx) {
 		var startTime = calculateStartTime($scope.results[idx]);
-		var endTime = startTime - 12;
+		var endTime = startTime + 12;
 		var query = '?start_time=*-' + startTime + 'h&end_time=*-' + endTime + 'h';
 		Utils.popupWindow('http://intranet/SitePages/2.0/PI/Trend2.aspx'.concat(query), 1000, 800);
 	};
 
 	$scope.openRendementUsine2 = function (idx) {
 		var startTime = calculateStartTime($scope.results[idx]);
-		var endTime = startTime - 12;
+		var endTime = startTime + 12;
 		var query = '?start_time=*-' + startTime + 'h&end_time=*-' + endTime + 'h';
 		Utils.popupWindow('http://intranet/SitePages/2.0/PI/Trend3.aspx'.concat(query), 1000, 800);
 	};
