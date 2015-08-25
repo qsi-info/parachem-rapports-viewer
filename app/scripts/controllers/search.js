@@ -174,6 +174,11 @@ angular.module('AngularSharePointApp').controller('SearchCtrl',
 		Utils.popupWindow('http://intranet/SitePages/2.0/PI/Trend3.aspx'.concat(query), 1000, 800);
 	};
 
+	$scope.printComments = function (id) {
+		var url = 'http://paradevsrv02/reportserver?/rapportsquart/commentaires&rs:Command=Render&rc:Toolbar=true&report=' + id + '&reporttype=' + $scope.reportType;
+		Utils.popupWindow(url, 1000, 800);
+	};
+
 
 	var calculateStartTime = function (report) {
 		var now = moment();

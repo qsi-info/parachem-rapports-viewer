@@ -90,6 +90,7 @@
 							<h3>Rendement d'usine</h3>
 							<button ng-click="openRendementUsine($index)" class="btn btn-default">Chaudières</button>							
 							<button ng-click="openRendementUsine2($index)" class="btn btn-default">Unités d'opération</button>							
+							<button ng-click="printComments(result.Id)" class="btn btn-primary pull-right">Imprimer les commentaires</button>							
 						</div>
 
 						<div ng-show="reportType == 'SA'">
@@ -97,6 +98,7 @@
 							<h3>Tableaux</h3>
 							<button ng-click="openRapportLignes(result.Id)" class="btn btn-default">Rapport de lignes</button>
 							<button ng-click="openRapportEvenements(result.Id)" class="btn btn-default">Rapport d'événements</button>
+							<button ng-click="printComments(result.Id)" class="btn btn-primary pull-right">Imprimer les commentaires</button>							
 						</div>
 
 					</div>
