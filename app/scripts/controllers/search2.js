@@ -10,7 +10,7 @@
  /*global $:false */
  /*global moment:false */
 
-angular.module('AngularSharePointApp').controller('Search2Ctrl', 
+angular.module('AngularSharePointApp').controller('SearchCtrl', 
 	['$rootScope', '$location', '$scope', 'ReportList', 'cfpLoadingBar', 'CommentList', 'SectionList', '$routeParams', 'Utils',
 	function ($rootScope, $location, $scope, ReportList, cfpLoadingBar, CommentList, SectionList, $routeParams, Utils) {
 
@@ -42,7 +42,7 @@ angular.module('AngularSharePointApp').controller('Search2Ctrl',
 
 		$scope.notFound = false;
 		$scope.comments = [];
-		$scope.results = [];
+		$scope.reports = [];
 		$scope.searchContext = '';
 
 		var rDate = moment(e.date).format();
@@ -52,7 +52,7 @@ angular.module('AngularSharePointApp').controller('Search2Ctrl',
 		var select = '$select=Id,Created,Team,Period,Author/Id,Author/Title&$expand=Author';
 
 		ReportList.find(filter + '&' + select).then(function (results) {
-			$scope.results = results;
+			$scope.reports = results;
 			if (results.length < 1) {
 				$scope.notFound = true;
 			}
@@ -77,26 +77,26 @@ angular.module('AngularSharePointApp').controller('Search2Ctrl',
 	$scope.search = function () {
 		var odataExpand = '$expand=Author,Report';
 		var odataSelect = '$select=Author/Id,Author/Title,Report/Period,Report/Id,Report/Team,Report/Created,Report/ReportType';
-		var odataFilter = '$filter=(substringof(\'' + $scope.searchContext + '\', Title) and Report/ReportType eq \'' + $scope.reportType.toLowerCase() + '\')';
+		var odataFilter = '$filter=substringof(\'' + $scope.searchContext + '\', Title) and Report/ReportType eq \'' + $scope.reportType.toLowerCase() + '\'';
 		var odataOrder  = '$orderby=Created desc';
 
 		cfpLoadingBar.start();
 		$scope.notFound = false;
 		$scope.comments = [];
-		$scope.results = [];
+		$scope.reports = [];
 
-		CommentList.find(odataFilter + '&' + odataSelect + '&' + odataExpand + '&' + odataOrder).then(function (results) {
+		CommentList.find(odataFilter + '&' + odataSelect + '&' + odataExpand + '&' + odataOrder).then(function (reports) {
 
-			$scope.results = [];
+			$scope.reports = [];
 
 			var isFound;
 
-			results.forEach(function (result) {
+			reports.forEach(function (result) {
 
 				isFound = false;
 
-				for (var i=0, len = $scope.results.length; i < len; i++) {
-					if (result.Report.Id === $scope.results[i].Id) {
+				for (var i=0, len = $scope.reports.length; i < len; i++) {
+					if (result.Report.Id === $scope.reports[i].Id) {
 						isFound = true;
 						// console.log(result);
 						break;
@@ -105,7 +105,7 @@ angular.module('AngularSharePointApp').controller('Search2Ctrl',
 
 
 				if (!isFound && result.Report.ReportType === $scope.reportType.toLowerCase()) {
-					$scope.results.push({
+					$scope.reports.push({
 						Author: result.Author,
 						Id: result.Report.Id,
 						Team: result.Report.Team,
@@ -116,10 +116,10 @@ angular.module('AngularSharePointApp').controller('Search2Ctrl',
 
 			});
 
-			// $scope.results = results;
+			// $scope.reports = reports;
 
 
-			if ($scope.results.length < 1) {
+			if ($scope.reports.length < 1) {
 				$scope.notFound = true;
 			}
 			cfpLoadingBar.complete();			
@@ -127,24 +127,6 @@ angular.module('AngularSharePointApp').controller('Search2Ctrl',
 	};
 
 
-
-	$scope.fetchComments = function (report) {
-		var reportId = report.Id || report.Report.Id;
-		var $collapseDiv = $('.collapse' + reportId);
-		if ($collapseDiv.hasClass('in')) {
-			$collapseDiv.collapse('hide');
-		} else {
-			cfpLoadingBar.start();
-			$('.comment-collapse.in').collapse('hide');
-			var odataSelect = '$select=Title,SectionId,ReportId';
-			var odataFilter = '$filter=Report eq ' + reportId;
-			CommentList.find(odataFilter + '&' + odataSelect).then(function (comments) {
-				$scope.comments = comments;
-				$collapseDiv.collapse('show');
-				cfpLoadingBar.complete();
-			});
-		}
-	};
 
 
 
@@ -161,14 +143,14 @@ angular.module('AngularSharePointApp').controller('Search2Ctrl',
 
 
 	$scope.openRendementUsine = function (idx) {
-		var startTime = calculateStartTime($scope.results[idx]);
+		var startTime = calculateStartTime($scope.reports[idx]);
 		var endTime = startTime + 12;
 		var query = '?start_time=*-' + startTime + 'h&end_time=*-' + endTime + 'h';
 		Utils.popupWindow('http://intranet/SitePages/2.0/PI/Trend2.aspx'.concat(query), 1000, 800);
 	};
 
 	$scope.openRendementUsine2 = function (idx) {
-		var startTime = calculateStartTime($scope.results[idx]);
+		var startTime = calculateStartTime($scope.reports[idx]);
 		var endTime = startTime + 12;
 		var query = '?start_time=*-' + startTime + 'h&end_time=*-' + endTime + 'h';
 		Utils.popupWindow('http://intranet/SitePages/2.0/PI/Trend3.aspx'.concat(query), 1000, 800);
@@ -180,6 +162,7 @@ angular.module('AngularSharePointApp').controller('Search2Ctrl',
 	};
 
 
+
 	var calculateStartTime = function (report) {
 		var now = moment();
 		var nbDays = now.diff(moment(new Date(report.Created)), 'days');
@@ -189,6 +172,7 @@ angular.module('AngularSharePointApp').controller('Search2Ctrl',
 		}
 		return (now.hour() - shiftStart) + (nbDays * 24);
 	};
+
 
 
 }]);

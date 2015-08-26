@@ -40,7 +40,7 @@ angular
 
 
       .when('/search/:type', {
-        templateUrl: 'views/viewer/search.html',
+        templateUrl: 'views/viewer/search2.html',
         controller: 'SearchCtrl',
       })
 
