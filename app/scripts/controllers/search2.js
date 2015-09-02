@@ -75,6 +75,11 @@ angular.module('AngularSharePointApp').controller('SearchCtrl',
 
 
 	$scope.search = function () {
+
+		if ($scope.searchContext.length < 3) {
+			return window.alert('Vous devez au moins entrer trois charactères dans le champ de recherche');
+		}
+
 		var odataExpand = '$expand=Author,Report';
 		var odataSelect = '$select=Author/Id,Author/Title,Report/Period,Report/Id,Report/Team,Report/Created,Report/ReportType';
 		var odataFilter = '$filter=substringof(\'' + $scope.searchContext + '\', Title) and Report/ReportType eq \'' + $scope.reportType.toLowerCase() + '\'';
